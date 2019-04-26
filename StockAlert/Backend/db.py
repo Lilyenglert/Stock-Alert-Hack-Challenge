@@ -28,8 +28,8 @@ class User(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'password': self.password
+            'username': self.username,
+            'password': self.password,
             'stocks': [stock.serialize() for stock in self.stocks]
         }
 
@@ -46,9 +46,9 @@ class Stock(db.Model):
         
     def serialize(self):
         return {
-            'id': self.id
-            'ticker': self.ticker
-            'company': self.company
+            'id': self.id,
+            'ticker': self.ticker,
+            'company': self.company,
             'notification users': [user.serialize() for user in self.notification_users]
         }
 
