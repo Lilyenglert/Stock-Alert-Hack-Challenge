@@ -15,7 +15,7 @@ protocol StockUpdateDelegate: class {
 class ViewController: UIViewController {
 
     var tableView: UITableView!
-    var stocks: [Stock]!
+    var stocks: [Stock] = []
     
     let reuseIdentifier = "stockCellReuse"
     let cellHeight: CGFloat = 75
@@ -26,13 +26,9 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        let stock1 = Stock(companyName: "Apple", stockTicker: "AAPL", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
-        let stock2 = Stock(companyName: "Facebook", stockTicker: "FB", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
-        let stock3 = Stock(companyName: "Tesla", stockTicker: "TSLA", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
-        let stock4 = Stock(companyName: "Netflix", stockTicker: "NFLX", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
-        let stock5 = Stock(companyName: "Amazon", stockTicker: "AMZN", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
+        //let stock1 = Stock(companyName: "Apple", stockTicker: "AAPL", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
 
-        stocks = [stock1, stock2, stock3, stock4, stock5]
+        //stocks = [stock1]
         
         tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +39,11 @@ class ViewController: UIViewController {
         
         setupConstraints()
         
+    }
+    
+    func pleaseAddStock(stock: Stock) {
+        stocks.append(stock)
+        tableView.reloadData()
     }
     
     func setupConstraints() {
@@ -62,7 +63,12 @@ extension ViewController: UITableViewDataSource {
     
     /// Tell the table view how many rows should be in each section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stocks.count
+
+        if !stocks.isEmpty {
+            return stocks.count
+        } else {
+            return 0
+        }
     }
     
     /// Tell the table view what cell to display for each row
@@ -95,6 +101,7 @@ extension ViewController: UITableViewDelegate {
 }
 
 extension ViewController: StockUpdateDelegate {
+    
     func updateStock(stock: Stock) {
         tableView.reloadData()
     }

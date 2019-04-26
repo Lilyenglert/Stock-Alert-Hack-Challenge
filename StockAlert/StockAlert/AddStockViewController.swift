@@ -1,15 +1,15 @@
 //
-//  UpdateViewController.swift
+//  AddStockViewController.swift
 //  StockAlert
 //
-//  Created by Annamalai Annamalai on 4/23/19.
+//  Created by Annamalai Annamalai on 4/26/19.
 //  Copyright © 2019 Annamalai Annamalai. All rights reserved.
 //
 
 import UIKit
 
-class UpdateViewController: UIViewController  {
-   
+class AddStockViewController: UIViewController {
+
     var companyNameTextField: UITextField!
     var stockTickerTextField: UITextField!
     var notificationTypeSegmentControl: UISegmentedControl!
@@ -24,15 +24,10 @@ class UpdateViewController: UIViewController  {
     var notificationPriceTextView: UITextView!
     var newsSourceTextView: UITextView!
     
-    
-    weak var delegate: StockUpdateDelegate?
-    
     var pickOption = ["Twitter", "The New York Times"]
     
-    var stock: Stock
     
-    init(stock: Stock) {
-        self.stock = stock
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,7 +37,7 @@ class UpdateViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         
         view.backgroundColor = .white
@@ -59,7 +54,7 @@ class UpdateViewController: UIViewController  {
         
         companyNameTextField = UITextField()
         companyNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        companyNameTextField.text = stock.companyName
+        companyNameTextField.text = ""
         companyNameTextField.textAlignment = .left
         companyNameTextField.font = UIFont.systemFont(ofSize: 16)
         companyNameTextField.textColor = .black
@@ -78,13 +73,13 @@ class UpdateViewController: UIViewController  {
         
         stockTickerTextField = UITextField()
         stockTickerTextField.translatesAutoresizingMaskIntoConstraints = false
-        stockTickerTextField.text = stock.stockTicker
+        stockTickerTextField.text = ""
         stockTickerTextField.textAlignment = .left
         stockTickerTextField.font = UIFont.systemFont(ofSize: 16)
         stockTickerTextField.textColor = .black
         stockTickerTextField.backgroundColor = .lightGray
         view.addSubview(stockTickerTextField)
-
+        
         notificationTypeTextView = UITextView()
         notificationTypeTextView.translatesAutoresizingMaskIntoConstraints = false
         notificationTypeTextView.text = "Notification Type: "
@@ -98,15 +93,11 @@ class UpdateViewController: UIViewController  {
         let items = ["Above", "Below"]
         notificationTypeSegmentControl = UISegmentedControl(items: items)
         notificationTypeSegmentControl.center = self.view.center
-        if  stock.notificationType == .above {
-            notificationTypeSegmentControl.selectedSegmentIndex = 0
-        } else {
-            notificationTypeSegmentControl.selectedSegmentIndex = 1
-        }
+        notificationTypeSegmentControl.selectedSegmentIndex = 0
         notificationTypeSegmentControl.addTarget(self, action: #selector(segmentToggle(_:)), for: .valueChanged)
         notificationTypeSegmentControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(notificationTypeSegmentControl)
-
+        
         notificationPriceTextView = UITextView()
         notificationPriceTextView.translatesAutoresizingMaskIntoConstraints = false
         notificationPriceTextView.text = "Notification Price ($): "
@@ -119,7 +110,7 @@ class UpdateViewController: UIViewController  {
         
         notificationPriceTextField = UITextField()
         notificationPriceTextField.translatesAutoresizingMaskIntoConstraints = false
-        notificationPriceTextField.text = String(stock.notificationPrice)
+        notificationPriceTextField.text = ""
         notificationPriceTextField.textAlignment = .left
         notificationPriceTextField.font = UIFont.systemFont(ofSize: 16)
         notificationPriceTextField.textColor = .black
@@ -128,14 +119,14 @@ class UpdateViewController: UIViewController  {
         
         addUpdateButton = UIButton()
         addUpdateButton.translatesAutoresizingMaskIntoConstraints = false
-        addUpdateButton.setTitle("Update Tracking", for: .normal)
+        addUpdateButton.setTitle("Add Tracking", for: .normal)
         addUpdateButton.setTitleColor(.blue, for: .normal)
         addUpdateButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         addUpdateButton.addTarget(self, action: #selector(dismissViewControllerAndUpdateSong), for: .touchUpInside)
         view.addSubview(addUpdateButton)
-
+        
         setupConstraints()
-    
+        
     }
     
     func setupConstraints() {
@@ -205,30 +196,34 @@ class UpdateViewController: UIViewController  {
     
     @objc func segmentToggle(_ sender:UISegmentedControl) {
         /*switch sender.selectedSegmentIndex{
-        case 0:
-            refreshShoppingListView(item: "", qty: "", type: 0)
-        case 1:
-            refreshShoppingListView(item: "", qty: "", type: 1)
-        default:
-            break
-        }*/
+         case 0:
+         refreshShoppingListView(item: "", qty: "", type: 0)
+         case 1:
+         refreshShoppingListView(item: "", qty: "", type: 1)
+         default:
+         break
+         }*/
     }
     
     @objc func dismissViewControllerAndUpdateSong() {
         
         if let companyName = companyNameTextField.text, companyName != "", let stockTicker = stockTickerTextField.text, stockTicker != "", let notificationPrice = notificationPriceTextField.text, notificationPrice != ""  {
-            stock.companyName = companyName
-            stock.stockTicker = stockTicker
+            let stock = Stock(companyName: companyName, stockTicker: stockTicker, notificationType: .above, notificationPrice: 0, newsSource: .Twitter)
             if notificationTypeSegmentControl.selectedSegmentIndex == 0 {
                 stock.notificationType = .above
             } else {
                 stock.notificationType = .below
             }
             stock.notificationPrice = Int(notificationPrice)!
-            delegate?.updateStock(stock: stock)
+            let controllers = tabBarController?.viewControllers
+            let home = controllers![0] as! ViewController
+            home.pleaseAddStock(stock: stock)
+            tabBarController?.selectedIndex = 0
+        } else {
+            let alert = UIAlertController(title: "Error", message: "Check Entered Values", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
         }
-        
-        dismiss(animated: true, completion: nil)
     }
 
 }

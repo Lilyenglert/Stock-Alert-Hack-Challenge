@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		423F6E8F44E5E7F7C4EE5362 /* Pods_StockAlert.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9DC8D5C8B98BBDF1B4814B /* Pods_StockAlert.framework */; };
+		9F796EAB227394E6008A7363 /* AddStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F796EAA227394E6008A7363 /* AddStockViewController.swift */; };
 		9FCC7C2A226F940A007E09C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC7C29226F940A007E09C0 /* AppDelegate.swift */; };
 		9FCC7C2C226F940A007E09C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC7C2B226F940A007E09C0 /* ViewController.swift */; };
 		9FCC7C31226F940B007E09C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FCC7C30226F940B007E09C0 /* Assets.xcassets */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A9DC8D5C8B98BBDF1B4814B /* Pods_StockAlert.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StockAlert.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F796EAA227394E6008A7363 /* AddStockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStockViewController.swift; sourceTree = "<group>"; };
 		9FCC7C26226F940A007E09C0 /* StockAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FCC7C29226F940A007E09C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FCC7C2B226F940A007E09C0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -28,6 +32,8 @@
 		9FCC7C3D226FD58D007E09C0 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
 		9FCC7C3F226FDD34007E09C0 /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		9FCC7C41226FF246007E09C0 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
+		DE47487452ACB9D8EE2FE7E5 /* Pods-StockAlert.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockAlert.debug.xcconfig"; path = "Target Support Files/Pods-StockAlert/Pods-StockAlert.debug.xcconfig"; sourceTree = "<group>"; };
+		FCBC4FBAF5ACA030E4F86031 /* Pods-StockAlert.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockAlert.release.xcconfig"; path = "Target Support Files/Pods-StockAlert/Pods-StockAlert.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +41,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				423F6E8F44E5E7F7C4EE5362 /* Pods_StockAlert.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28087706EEBD7D708211F1BC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DE47487452ACB9D8EE2FE7E5 /* Pods-StockAlert.debug.xcconfig */,
+				FCBC4FBAF5ACA030E4F86031 /* Pods-StockAlert.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		9FCC7C1D226F940A007E09C0 = {
 			isa = PBXGroup;
 			children = (
 				9FCC7C28226F940A007E09C0 /* StockAlert */,
 				9FCC7C27226F940A007E09C0 /* Products */,
+				28087706EEBD7D708211F1BC /* Pods */,
+				B1B5CA816851B5409601AC58 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +83,7 @@
 				9FCC7C41226FF246007E09C0 /* TabViewController.swift */,
 				9FCC7C2B226F940A007E09C0 /* ViewController.swift */,
 				9FCC7C3F226FDD34007E09C0 /* UpdateViewController.swift */,
+				9F796EAA227394E6008A7363 /* AddStockViewController.swift */,
 				9FCC7C3D226FD58D007E09C0 /* StocksTableViewCell.swift */,
 				9FCC7C3B226FD1D1007E09C0 /* Stock.swift */,
 				9FCC7C30226F940B007E09C0 /* Assets.xcassets */,
@@ -73,6 +93,14 @@
 			path = StockAlert;
 			sourceTree = "<group>";
 		};
+		B1B5CA816851B5409601AC58 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A9DC8D5C8B98BBDF1B4814B /* Pods_StockAlert.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -80,9 +108,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9FCC7C38226F940B007E09C0 /* Build configuration list for PBXNativeTarget "StockAlert" */;
 			buildPhases = (
+				B2ABC480E365D56C62DDF6F5 /* [CP] Check Pods Manifest.lock */,
 				9FCC7C22226F940A007E09C0 /* Sources */,
 				9FCC7C23226F940A007E09C0 /* Frameworks */,
 				9FCC7C24226F940A007E09C0 /* Resources */,
+				55DA4DF43F9482DF1AE6D5C8 /* [CP] Embed Pods Frameworks */,
+				860BE82993AF5183FCECA30A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -138,12 +169,84 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		55DA4DF43F9482DF1AE6D5C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StockAlert/Pods-StockAlert-frameworks.sh",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StockAlert/Pods-StockAlert-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		860BE82993AF5183FCECA30A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StockAlert/Pods-StockAlert-resources.sh",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StockAlert/Pods-StockAlert-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2ABC480E365D56C62DDF6F5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StockAlert-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9FCC7C22226F940A007E09C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				9FCC7C42226FF246007E09C0 /* TabViewController.swift in Sources */,
+				9F796EAB227394E6008A7363 /* AddStockViewController.swift in Sources */,
 				9FCC7C2C226F940A007E09C0 /* ViewController.swift in Sources */,
 				9FCC7C2A226F940A007E09C0 /* AppDelegate.swift in Sources */,
 				9FCC7C3E226FD58D007E09C0 /* StocksTableViewCell.swift in Sources */,
@@ -284,6 +387,7 @@
 		};
 		9FCC7C39226F940B007E09C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE47487452ACB9D8EE2FE7E5 /* Pods-StockAlert.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -301,6 +405,7 @@
 		};
 		9FCC7C3A226F940B007E09C0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FCBC4FBAF5ACA030E4F86031 /* Pods-StockAlert.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

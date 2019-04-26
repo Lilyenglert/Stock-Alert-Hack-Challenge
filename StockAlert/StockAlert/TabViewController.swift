@@ -17,9 +17,9 @@ class TabViewController: UITabBarController {
         
         title = "STOCK ALERT"
         
-        let updateViewController = UpdateViewController()
+        let addStockViewController = AddStockViewController()
         
-        updateViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        addStockViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
         let homeViewController = ViewController()
         
@@ -29,7 +29,7 @@ class TabViewController: UITabBarController {
         
         newsViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
         
-        let tabBarList = [homeViewController, updateViewController, newsViewController]
+        let tabBarList = [homeViewController, addStockViewController, newsViewController]
         
         
         
