@@ -25,7 +25,7 @@ class TabViewController: UITabBarController {
         
         homeViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         
-        let newsViewController = ViewController()
+        let newsViewController = NewsViewController()
         
         newsViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
         
