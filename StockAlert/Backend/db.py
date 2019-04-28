@@ -38,17 +38,23 @@ class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ticker = db.Column(db.String, nullable=False)
     company = db.Column(db.String, nullable=False)
+    price = db.Column(db.Integer, nullable=True)
+    p_change = db.Column(db.String, nullable=True)
     notification_users = db.relationship('User', secondary=notification_association_table)
 
     def __init__(self, **kwargs):
         self.ticker = kwargs.get('ticker')
         self.company = kwargs.get('company')
+        self.price = kwargs.get('price')
+        self.p_change = kwargs.get('pchange')
         
     def serialize(self):
         return {
             'id': self.id,
             'ticker': self.ticker,
             'company': self.company,
+            'price': self.price,
+            'p_change': self.p_change,
             'notification users': [user.serialize() for user in self.notification_users]
         }
 

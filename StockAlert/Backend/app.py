@@ -1,6 +1,7 @@
-import json
+import json, requests
 from flask import Flask, request
 from db import db, User, Stock
+
 
 #import environment variables from the host OS
 #from os import environ
@@ -94,6 +95,14 @@ def delete_stock(stock_id):
         return json.dumps({'success': True, 'data': stock.serialize()}), 200
     return json.dumps({'success': False, 'error': 'Stock not found'}), 404
 
+@app.route('/api/stock/<string:stock_ticker>/')
+def get_stock_by_ticker(stock_ticker):
+    
+    stock = Stock.query.filter_by(ticker=stock_ticker).first()
+    if stock is not None:
+        return json.dumps({'success': True, 'data': stock.serialize()}), 200
+    return json.dumps({'success': False, 'error': 'Stock not found'}), 404
+
 #Others
 @app.route('/api/user/<int:user_id>/add/', methods=['POST'])
 def add_stock_to_user(user_id):
@@ -134,6 +143,24 @@ def add_user_to_stock_notification(stock_id):
     db.session.commit()
     return json.dumps({'success': True, 'data': stock.serialize()}), 200
     
+
+#AlphaVantage API related functions
+@app.route('/api/stock/update/<string:ticker>/')
+def updatestock(ticker):
+    stock = Stock.query.filter_by(ticker=ticker).first()
+    if stock is None:
+        return json.dumps({'success': False, 'error': 'Stock not found'}), 404
+
+    apilink = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=17R294ZH2B8H0OUU"
+    r = requests.get(apilink)
+    content = r.json()
+    price = content["Global Quote"]["05. price"]
+    p_change = content["Global Quote"]["10. change percent"]
+
+    stock.price = price
+    stock.p_change = p_change
+    db.session.commit()
+    return json.dumps({'success': True, 'data': stock.serialize()}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
