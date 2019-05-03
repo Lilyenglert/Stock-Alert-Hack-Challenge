@@ -1,6 +1,7 @@
 import json, requests
 from flask import Flask, request
 from db import db, User, Stock
+import users_dao
 
 
 #import environment variables from the host OS
@@ -21,6 +22,90 @@ with app.app_context():
 def root():
     return "StockAlert is running!"
 
+
+def extract_token(request):
+    auth_header = request.headers.get('Authorization')
+    if auth_header is None:
+        return False, json.dumps({'error': 'Missing authorization header.'})
+
+    bearer_token = auth_header.replace('Bearer ', '').strip()
+    if not bearer_token:
+        return False, json.dumps({'error': 'Invalid authorization header.'}) 
+
+    return True, bearer_token
+
+@app.route('/register/', methods=['POST'])
+def register_account():
+    post_body = json.loads(request.data)
+    email = post_body.get('email')
+    password = post_body.get('password')
+
+    if email is None or password is None:
+        return json.dumps({'error': 'Invalid email or password'})
+    
+    created, user = users_dao.create_user(email, password)
+
+    if not created:
+        return json.dumps({'error': 'User already exists'})
+
+    return json.dumps({
+        'session_token': user.session_token,
+        'session_expiration': str(user.session_expiration),
+        'update_token': user.update_token
+    })
+
+@app.route('/login/', methods=['POST'])
+def login():
+    post_body = json.loads(request.data)
+    email = post_body.get('email')
+    password = post_body.get('password')
+
+    if email is None or password is None:
+        return json.dumps({'error': 'Invalid email or password'})
+
+    success, user = users_dao.verify_credentials(email, password)
+
+    if not success:
+        return json.dumps({'error': 'Incorrect email or password'}) 
+    
+    return json.dumps({
+        'session_token': user.session_token,
+        'session_expiration': str(user.session_expiration),
+        'update_token': user.update_token
+    })
+
+
+@app.route('/session/', methods=['POST'])
+def update_session():
+    success, update_token = extract_token(request)
+
+    if not success:
+        return update_token 
+
+    try:
+        user = users_dao.renew_session(update_token)
+    except:
+        return json.dumps({'error': 'Invalid update token'})
+
+    return json.dumps({
+        'session_token': user.session_token,
+        'session_expiration': str(user.session_expiration),
+        'update_token': user.update_token
+    })
+
+@app.route('/secret/', methods=['GET'])
+def secret_message():
+    success, session_token = extract_token(request)
+
+    if not success:
+        return session_token
+    
+    user = users_dao.get_user_by_session_token(session_token)
+    if not user or not user.verify_session_token(session_token):
+        return json.dumps({'error': 'Invalid session token'})
+
+    return json.dumps({'message': 'Logged in as ' + user.email })
+    
 #User related functions
 @app.route('/api/users/')
 def get_users():
@@ -30,12 +115,12 @@ def get_users():
         'data': [user.serialize() for user in users]
     }
     return json.dumps(res), 200
-
+#
 @app.route('/api/users/', methods=['POST'])
 def create_user():
     post_body = json.loads(request.data)
     new_user = User(
-        username=post_body.get('username', ''),
+        email=post_body.get('email', ''),
         password=post_body.get('password', '')
     )
     db.session.add(new_user)
@@ -162,5 +247,7 @@ def updatestock(ticker):
     db.session.commit()
     return json.dumps({'success': True, 'data': stock.serialize()}), 200
 
+
+#
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
