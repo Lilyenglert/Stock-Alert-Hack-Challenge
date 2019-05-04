@@ -23,7 +23,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     #user information
-    email = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False, unique=True)
     #password = db.Column(db.String, nullable=False)
     password_digest = db.Column(db.String, nullable=False)
      #Session information
@@ -65,13 +65,10 @@ class User(db.Model):
       return update_token ==self.update_token
 
 
-        
-
     def serialize(self):
         return {
             'id': self.id,
             'email': self.email,
-            'password': self.password,
             'stocks': [stock.serialize() for stock in self.stocks]
         }
 

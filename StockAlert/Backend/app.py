@@ -20,7 +20,7 @@ with app.app_context():
 
 @app.route('/')
 def root():
-    return "StockAlert is running!"
+    return "Hi, StockAlert is running!"
 
 
 def extract_token(request):
@@ -182,7 +182,6 @@ def delete_stock(stock_id):
 
 @app.route('/api/stock/<string:stock_ticker>/')
 def get_stock_by_ticker(stock_ticker):
-    
     stock = Stock.query.filter_by(ticker=stock_ticker).first()
     if stock is not None:
         return json.dumps({'success': True, 'data': stock.serialize()}), 200
@@ -192,10 +191,10 @@ def get_stock_by_ticker(stock_ticker):
 @app.route('/api/user/<int:user_id>/add/', methods=['POST'])
 def add_stock_to_user(user_id):
     post_body = json.loads(request.data)
-    stock_id = post_body.get('stock_id', '')
+    stock_id = post_body.get('ticker', '')
 
     user = User.query.filter_by(id=user_id).first()
-    stock = Stock.query.filter_by(id=stock_id).first()
+    stock = Stock.query.filter_by(ticker=ticker).first()
 
     if user is None:
         return json.dumps({'success': False, 'error': 'User not found'}), 404
@@ -209,13 +208,13 @@ def add_stock_to_user(user_id):
     return json.dumps({'success': True, 'data': user.serialize()}), 200
     
 
-@app.route('/api/stock/<int:stock_id>/add/', methods=['POST'])
-def add_user_to_stock_notification(stock_id):
+@app.route('/api/stock/<string:ticker>/add/', methods=['POST'])
+def add_user_to_stock_notification(ticker):
     post_body = json.loads(request.data)
     user_id = post_body.get('user_id', '')
 
     user = User.query.filter_by(id=user_id).first()
-    stock = Stock.query.filter_by(id=stock_id).first()
+    stock = Stock.query.filter_by(ticker=ticker).first()
 
     if user is None:
         return json.dumps({'success': False, 'error': 'User not found'}), 404
@@ -230,6 +229,7 @@ def add_user_to_stock_notification(stock_id):
     
 
 #AlphaVantage API related functions
+#Updates the stock information
 @app.route('/api/stock/update/<string:ticker>/')
 def updatestock(ticker):
     stock = Stock.query.filter_by(ticker=ticker).first()
@@ -247,7 +247,19 @@ def updatestock(ticker):
     db.session.commit()
     return json.dumps({'success': True, 'data': stock.serialize()}), 200
 
+#Search bar
+@app.route('/search/', methods=['POST'])
+def searching_stocks():
+    post_body = json.loads(request.data)
+    search_str = post_body.get("search_str","")
+    apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + search_str + "&apikey=17R294ZH2B8H0OUU"
+    r = requests.get(apilink)
+    content = r.json()
 
-#
+    names = [stock["2. name"] for stock in content["bestMatches"]]
+    tickers = [stock["1. symbol"] for stock in content["bestMatches"]]
+
+    return json.dumps({'success': True, 'data': {"names": names, "tickers": tickers}}), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
