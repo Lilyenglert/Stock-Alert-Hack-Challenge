@@ -16,16 +16,15 @@ class ViewController: UIViewController {
 
     var tableView: UITableView!
     var stocks: [Stock] = []
-    
     let reuseIdentifier = "stockCellReuse"
-    let cellHeight: CGFloat = 75
+    let cellHeight: CGFloat = 100
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+    
         
         view.backgroundColor = .white
-        
         //let stock1 = Stock(companyName: "Apple", stockTicker: "AAPL", notificationType: .above, notificationPrice: 208, newsSource: .Twitter)
 
         //stocks = [stock1]
@@ -35,8 +34,10 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.separatorStyle = .none
         view.addSubview(tableView)
-        
+//        tableView.allowsSelection = false
+//        self.tableView.rowHeight = 44.0
         setupConstraints()
         
     }
@@ -45,13 +46,14 @@ class ViewController: UIViewController {
         stocks.append(stock)
         tableView.reloadData()
     }
+
     
     func setupConstraints() {
         // Setup the constraints for our views
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
     }
@@ -76,8 +78,7 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! StocksTableViewCell
         let stock = stocks[indexPath.row]
         cell.configure(for: stock)
-        cell.selectionStyle = .gray
-        
+        cell.selectionStyle = .none
         return cell
     }
     
