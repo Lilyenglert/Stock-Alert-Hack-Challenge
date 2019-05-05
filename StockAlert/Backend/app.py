@@ -250,7 +250,19 @@ def add_stock_to_user(user_id):
         return json.dumps({'success': False, 'error': 'User not found'}), 404
 
     if stock is None:
-        return json.dumps({'success': False, 'error': 'Stock not found'}), 404
+        apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + ticker + "&apikey=17R294ZH2B8H0OUU"
+        r = requests.get(apilink)
+        content = r.json()
+        company = content["bestMatches"][0]
+        company_name = company["2. name"]
+        ticker = company["1. symbol"]
+        
+        stock = Stock(
+            ticker=ticker,
+            company=company_name,
+        )
+        db.session.add(stock)
+        db.session.commit()
 
     x = stock.update()
 
