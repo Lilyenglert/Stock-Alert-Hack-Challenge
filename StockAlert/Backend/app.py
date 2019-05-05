@@ -79,17 +79,17 @@ def login():
     password = post_body.get('password')
 
     if email is None or password is None:
-        return json.dumps({'success': False, 'error': 'Invalid email or password'})
+        return json.dumps({'success': False, 'error': 'Invalid email or password'}), 400
 
     check= users_dao.get_user_by_email(email)
     if check is None :
         if not(isValidEmail(email)) :
-            return json.dumps({'success': False, 'error': 'Wrong email format'})
+            return json.dumps({'success': False, 'error': 'Wrong email format'}), 400
         
         created, user = users_dao.create_user(email, password)
 
         if not created:
-            return json.dumps({'success': False, 'error': 'User already exists'})
+            return json.dumps({'success': False, 'error': 'User already exists'}), 409
 
         return json.dumps({
             'success': True,
@@ -97,13 +97,13 @@ def login():
             'session_token': user.session_token,
             'session_expiration': str(user.session_expiration),
             'update_token': user.update_token
-        })
+        }), 201
 
     else: 
         success, user = users_dao.verify_credentials(email, password)
 
         if not success:
-            return json.dumps({'success': False, 'error': 'Incorrect email or password'}) 
+            return json.dumps({'success': False, 'error': 'Incorrect email or password'}), 400
         
         return json.dumps({
             'success': True,
@@ -111,7 +111,7 @@ def login():
             'session_token': user.session_token,
             'session_expiration': str(user.session_expiration),
             'update_token': user.update_token
-        })
+        }), 200
 
 
 @app.route('/session/', methods=['POST'])
