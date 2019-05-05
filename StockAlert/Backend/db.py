@@ -3,6 +3,8 @@ import bcrypt
 import datetime
 import hashlib
 import os
+import json
+import requests
 
 db = SQLAlchemy()
 
@@ -80,7 +82,8 @@ class Stock(db.Model):
     ticker = db.Column(db.String, nullable=False)
     company = db.Column(db.String, nullable=False)
     price = db.Column(db.Integer, nullable=True)
-    p_change = db.Column(db.String, nullable=True)
+    p_change = db.Column(db.Float, nullable=True)
+    p_diff = db.Column(db.Float, nullable=True)
     notification_users = db.relationship('User', secondary=notification_association_table)
 
     def __init__(self, **kwargs):
@@ -88,6 +91,7 @@ class Stock(db.Model):
         self.company = kwargs.get('company')
         self.price = kwargs.get('price')
         self.p_change = kwargs.get('pchange')
+        self.p_diff = 0.0
         
     def serialize(self):
         return {
@@ -96,8 +100,21 @@ class Stock(db.Model):
             'company': self.company,
             'price': self.price,
             'p_change': self.p_change,
+            'p_diff': self.p_diff,
             'notification users': [user.serialize() for user in self.notification_users]
         }
 
+
+    def update(self):
+        apilink = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + self.ticker + "&apikey=17R294ZH2B8H0OUU"
+        r = requests.get(apilink)
+        content = r.json()
+        price = content["Global Quote"]["05. price"]
+        p_change = content["Global Quote"]["10. change percent"]
+
+        self.price = float(price[:-1])
+        self.p_change = float(p_change[:-1])
+        self.p_diff = self.p_change - self.p_diff
+        return self.serialize()
 
 

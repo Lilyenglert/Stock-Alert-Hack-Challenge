@@ -41,14 +41,16 @@ def register_account():
     password = post_body.get('password')
 
     if email is None or password is None:
-        return json.dumps({'error': 'Invalid email or password'})
+        return json.dumps({'success': False, 'error': 'Invalid email or password'})
     
     created, user = users_dao.create_user(email, password)
 
     if not created:
-        return json.dumps({'error': 'User already exists'})
+        return json.dumps({'success': False, 'error': 'User already exists'})
 
     return json.dumps({
+        'success': True,
+        'user': user.serialize(),
         'session_token': user.session_token,
         'session_expiration': str(user.session_expiration),
         'update_token': user.update_token
@@ -61,14 +63,16 @@ def login():
     password = post_body.get('password')
 
     if email is None or password is None:
-        return json.dumps({'error': 'Invalid email or password'})
+        return json.dumps({'success': False, 'error': 'Invalid email or password'})
 
     success, user = users_dao.verify_credentials(email, password)
 
     if not success:
-        return json.dumps({'error': 'Incorrect email or password'}) 
+        return json.dumps({'success': False, 'error': 'Incorrect email or password'}) 
     
     return json.dumps({
+        'success': True,
+        'user': user.serialize(),
         'session_token': user.session_token,
         'session_expiration': str(user.session_expiration),
         'update_token': user.update_token
@@ -85,9 +89,11 @@ def update_session():
     try:
         user = users_dao.renew_session(update_token)
     except:
-        return json.dumps({'error': 'Invalid update token'})
+        return json.dumps({'success': True, 'error': 'Invalid update token'})
 
     return json.dumps({
+        'success': True,
+        'user': user.serialize(),
         'session_token': user.session_token,
         'session_expiration': str(user.session_expiration),
         'update_token': user.update_token
@@ -102,11 +108,20 @@ def secret_message():
     
     user = users_dao.get_user_by_session_token(session_token)
     if not user or not user.verify_session_token(session_token):
-        return json.dumps({'error': 'Invalid session token'})
+        return json.dumps({'success': False, 'error': 'Invalid session token'})
 
-    return json.dumps({'message': 'Logged in as ' + user.email })
+    return json.dumps({'success': True, 'message': 'Logged in as ' + user.email })
     
 #User related functions
+@app.route('/home/user/<int:user_id>/')
+def user_homepage(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        return json.dumps({'success': False, 'error': 'User not found'}), 404
+    
+    stocks = [stock.update() for stock in user.stocks]
+    return json.dumps({'success': True, 'stocks': stocks})
+
 @app.route('/api/users/')
 def get_users():
     users = User.query.all()
@@ -191,16 +206,18 @@ def get_stock_by_ticker(stock_ticker):
 @app.route('/api/user/<int:user_id>/add/', methods=['POST'])
 def add_stock_to_user(user_id):
     post_body = json.loads(request.data)
-    stock_id = post_body.get('ticker', '')
+    ticker = post_body.get('ticker', '')
 
     user = User.query.filter_by(id=user_id).first()
     stock = Stock.query.filter_by(ticker=ticker).first()
 
     if user is None:
         return json.dumps({'success': False, 'error': 'User not found'}), 404
-    
+
     if stock is None:
         return json.dumps({'success': False, 'error': 'Stock not found'}), 404
+
+    x = stock.update()
 
     user.stocks.append(stock)
     db.session.add(user)
@@ -236,16 +253,9 @@ def updatestock(ticker):
     if stock is None:
         return json.dumps({'success': False, 'error': 'Stock not found'}), 404
 
-    apilink = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=17R294ZH2B8H0OUU"
-    r = requests.get(apilink)
-    content = r.json()
-    price = content["Global Quote"]["05. price"]
-    p_change = content["Global Quote"]["10. change percent"]
-
-    stock.price = price
-    stock.p_change = p_change
+    stock = stock.update()
     db.session.commit()
-    return json.dumps({'success': True, 'data': stock.serialize()}), 200
+    return json.dumps({'success': True, 'data': stock}), 200
 
 #Search bar
 @app.route('/search/', methods=['POST'])
@@ -260,6 +270,8 @@ def searching_stocks():
     tickers = [stock["1. symbol"] for stock in content["bestMatches"]]
 
     return json.dumps({'success': True, 'data': {"names": names, "tickers": tickers}}), 200
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
