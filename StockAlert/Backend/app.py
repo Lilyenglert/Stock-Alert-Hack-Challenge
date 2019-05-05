@@ -2,6 +2,7 @@ import json, requests
 from flask import Flask, request
 from db import db, User, Stock
 import users_dao
+import re
 
 
 #import environment variables from the host OS
@@ -21,6 +22,18 @@ with app.app_context():
 @app.route('/')
 def root():
     return "Hi, StockAlert is running!"
+
+def isValidEmail(email):
+ if len(email) > 7:
+      if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
+          return True
+ return False
+
+
+if isValidEmail("my.email@gmail.com") == True :
+ print ("This is a valid email address")
+else:
+ print ("This is not a valid email address")
 
 
 def extract_token(request):
@@ -42,6 +55,9 @@ def register_account():
 
     if email is None or password is None:
         return json.dumps({'success': False, 'error': 'Invalid email or password'})
+
+    if not(isValidEmail(email)) :
+        return json.dumps({'success': False, 'error': 'Wrong email format'})
     
     created, user = users_dao.create_user(email, password)
 
@@ -258,10 +274,8 @@ def updatestock(ticker):
     return json.dumps({'success': True, 'data': stock}), 200
 
 #Search bar
-@app.route('/search/', methods=['POST'])
-def searching_stocks():
-    post_body = json.loads(request.data)
-    search_str = post_body.get("search_str","")
+@app.route('/search/<string:search_str>/')
+def searching_stocks(search_str):
     apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + search_str + "&apikey=17R294ZH2B8H0OUU"
     r = requests.get(apilink)
     content = r.json()
