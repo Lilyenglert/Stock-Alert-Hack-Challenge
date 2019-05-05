@@ -24,11 +24,11 @@ def root():
     return "Hi, StockAlert is running!"
 
 def isValidEmail(email):
- if len(email) > 7:
-      if re.match("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) != None:
-          return True
- return False
+    apilink =  "https://apilayer.net/api/check?access_key=6db903e2932a33dd319b0f4b5cc7c61e&email=" + email + "&format=1"
+    r = requests.get(apilink)
+    content = r.json()
 
+    return content["format_valid"]
 
 if isValidEmail("my.email@gmail.com") == True :
  print ("This is a valid email address")
