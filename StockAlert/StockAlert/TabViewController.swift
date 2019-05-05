@@ -10,6 +10,19 @@ import UIKit
 
 class TabViewController: UITabBarController {
     
+    var user: User
+    
+    init(user: User) {
+        self.user = user
+        print("Creating User")
+        print(self.user.id)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +34,7 @@ class TabViewController: UITabBarController {
         
         addStockViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
-        let homeViewController = ViewController()
+        let homeViewController = ViewController(user: user)
         
         homeViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         
@@ -34,7 +47,6 @@ class TabViewController: UITabBarController {
         
         
         viewControllers = tabBarList
-        
     }
     
     /*

@@ -13,6 +13,7 @@ class NewsViewController: UIViewController {
 
     var newstableView: UITableView!
     var news: [News] = []
+    var tweetData: [TWTRTweet] = []
     
     let reuseIdentifier = "newsCellReuse"
     let cellHeight: CGFloat = 75
@@ -61,6 +62,7 @@ class NewsViewController: UIViewController {
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
                 print("json: \(json)")
+                //TWTRTweet.tweets(withJSONArray: json as! [Any]) as! [TWTRTweet]
             } catch let jsonError as NSError {
                 print("json error: \(jsonError.localizedDescription)")
             }
@@ -84,7 +86,7 @@ extension NewsViewController: UITableViewDataSource {
     /// Tell the table view what cell to display for each row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! StocksTableViewCell
-        let newsItem = news[indexPath.row]
+        //let newsItem = news[indexPath.row]
         //cell.configure(for: stock)
         //cell.selectionStyle = .gray
         
@@ -103,6 +105,7 @@ extension NewsViewController: UITableViewDelegate {
     /// Tell the table view what should happen if we select a row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //let newsItem = news[indexPath.row]
+        let tweet = tweetData[indexPath.row]
         //let updateViewController = UpdateViewController(stock: stock)
         //updateViewController.delegate = self
         //present(updateViewController, animated: true, completion: nil)

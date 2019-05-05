@@ -26,7 +26,6 @@ class AddStockViewController: UIViewController {
     
     var pickOption = ["Twitter", "The New York Times"]
     
-    
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -217,6 +216,7 @@ class AddStockViewController: UIViewController {
             stock.notificationPrice = Int(notificationPrice)!
             let controllers = tabBarController?.viewControllers
             let home = controllers![0] as! ViewController
+            
             home.pleaseAddStock(stock: stock)
             tabBarController?.selectedIndex = 0
         } else {
