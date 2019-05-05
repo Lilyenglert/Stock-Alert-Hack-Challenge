@@ -64,7 +64,10 @@ class UpdateViewController: UIViewController  {
         companyNameTextField.textAlignment = .left
         companyNameTextField.font = UIFont.systemFont(ofSize: 16)
         companyNameTextField.textColor = .black
-        companyNameTextField.backgroundColor = .lightGray
+        companyNameTextField.backgroundColor = .white
+        companyNameTextField.layer.borderWidth = 1
+        companyNameTextField.layer.cornerRadius = 4
+        companyNameTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(companyNameTextField)
         
         stockTickerTextView = UITextView()
@@ -83,7 +86,10 @@ class UpdateViewController: UIViewController  {
         stockTickerTextField.textAlignment = .left
         stockTickerTextField.font = UIFont.systemFont(ofSize: 16)
         stockTickerTextField.textColor = .black
-        stockTickerTextField.backgroundColor = .lightGray
+        stockTickerTextField.backgroundColor = .white
+        stockTickerTextField.layer.borderWidth = 1
+        stockTickerTextField.layer.cornerRadius = 4
+        stockTickerTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(stockTickerTextField)
 
         notificationTypeTextView = UITextView()
@@ -106,6 +112,7 @@ class UpdateViewController: UIViewController  {
         }
         notificationTypeSegmentControl.addTarget(self, action: #selector(segmentToggle(_:)), for: .valueChanged)
         notificationTypeSegmentControl.translatesAutoresizingMaskIntoConstraints = false
+        notificationTypeSegmentControl.tintColor = .lightGray
         view.addSubview(notificationTypeSegmentControl)
 
         notificationPriceTextView = UITextView()
@@ -124,7 +131,10 @@ class UpdateViewController: UIViewController  {
         notificationPriceTextField.textAlignment = .left
         notificationPriceTextField.font = UIFont.systemFont(ofSize: 16)
         notificationPriceTextField.textColor = .black
-        notificationPriceTextField.backgroundColor = .lightGray
+        notificationPriceTextField.backgroundColor = .white
+        notificationPriceTextField.layer.borderWidth = 1
+        notificationPriceTextField.layer.cornerRadius = 4
+        notificationPriceTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(notificationPriceTextField)
         
         addUpdateButton = UIButton()
@@ -142,60 +152,60 @@ class UpdateViewController: UIViewController  {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             companyNameTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            companyNameTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -90),
+            companyNameTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             companyNameTextView.heightAnchor.constraint(equalToConstant: 30),
             companyNameTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
         
         NSLayoutConstraint.activate([
             companyNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            companyNameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 90),
+            companyNameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             companyNameTextField.heightAnchor.constraint(equalToConstant: 30),
             companyNameTextField.widthAnchor.constraint(equalToConstant: 150)
             ])
-        
+
         NSLayoutConstraint.activate([
             stockTickerTextView.topAnchor.constraint(equalTo: companyNameTextView.bottomAnchor, constant: 10),
-            stockTickerTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -90),
+            stockTickerTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             stockTickerTextView.heightAnchor.constraint(equalToConstant: 30),
             stockTickerTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
-        
+
         NSLayoutConstraint.activate([
             stockTickerTextField.topAnchor.constraint(equalTo: companyNameTextView.bottomAnchor, constant: 10),
-            stockTickerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 90),
+            stockTickerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             stockTickerTextField.heightAnchor.constraint(equalToConstant: 30),
             stockTickerTextField.widthAnchor.constraint(equalToConstant: 150)
             ])
-        
+
         NSLayoutConstraint.activate([
             notificationTypeTextView.topAnchor.constraint(equalTo: stockTickerTextView.bottomAnchor, constant: 10),
-            notificationTypeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -90),
+            notificationTypeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             notificationTypeTextView.heightAnchor.constraint(equalToConstant: 30),
             notificationTypeTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
-        
+
         NSLayoutConstraint.activate([
             notificationTypeSegmentControl.topAnchor.constraint(equalTo: stockTickerTextView.bottomAnchor, constant: 10),
-            notificationTypeSegmentControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 90),
+            notificationTypeSegmentControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             notificationTypeSegmentControl.heightAnchor.constraint(equalToConstant: 30),
             notificationTypeSegmentControl.widthAnchor.constraint(equalToConstant: 150)
             ])
-        
+
         NSLayoutConstraint.activate([
             notificationPriceTextView.topAnchor.constraint(equalTo: notificationTypeTextView.bottomAnchor, constant: 10),
-            notificationPriceTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -90),
+            notificationPriceTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             notificationPriceTextView.heightAnchor.constraint(equalToConstant: 30),
             notificationPriceTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
-        
+
         NSLayoutConstraint.activate([
             notificationPriceTextField.topAnchor.constraint(equalTo: notificationTypeTextView.bottomAnchor, constant: 10),
-            notificationPriceTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 90),
+            notificationPriceTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             notificationPriceTextField.heightAnchor.constraint(equalToConstant: 30),
             notificationPriceTextField.widthAnchor.constraint(equalToConstant: 150)
             ])
-        
+
         NSLayoutConstraint.activate([
             addUpdateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             addUpdateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
@@ -231,5 +241,6 @@ class UpdateViewController: UIViewController  {
         
         dismiss(animated: true, completion: nil)
     }
+    
 
 }

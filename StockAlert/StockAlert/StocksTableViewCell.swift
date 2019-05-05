@@ -19,14 +19,13 @@ class StocksTableViewCell: UITableViewCell {
     let padding: CGFloat = 15
     let labelHeight: CGFloat = 20
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.layoutMargins = UIEdgeInsets.zero
         self.separatorInset = UIEdgeInsets.zero
         self.layer.cornerRadius = 15
         self.backgroundColor = baseCellColor
-        self.layer.borderWidth = CGFloat(padding/2.5)
+        self.layer.borderWidth = CGFloat(padding/2.45)
         self.layer.borderColor = UIColor.white.cgColor
         self.selectionStyle = .none
         

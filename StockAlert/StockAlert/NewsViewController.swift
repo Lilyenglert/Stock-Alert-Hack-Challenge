@@ -21,13 +21,14 @@ class NewsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         
         newstableView = UITableView(frame: .zero)
         newstableView.translatesAutoresizingMaskIntoConstraints = false
         newstableView.delegate = self
         newstableView.dataSource = self
-        newstableView.backgroundColor = .black
+        newstableView.backgroundColor = .white
+//        newstableView.layer.cornerRadius = 5
         newstableView.register(StocksTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         view.addSubview(newstableView)
         
