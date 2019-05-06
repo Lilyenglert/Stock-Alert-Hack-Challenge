@@ -5,17 +5,12 @@ import hashlib
 import os
 import json
 import requests
+from operator import itemgetter
 
 db = SQLAlchemy()
 
 user_stocks_association_table = db.Table(
     "user's stocks", db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('stock_id', db.Integer, db.ForeignKey('stock.id'))
-)
-
-notification_association_table = db.Table(
-    'notification', db.Model.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('stock_id', db.Integer, db.ForeignKey('stock.id'))
 )
@@ -71,7 +66,7 @@ class User(db.Model):
         return {
             'id': self.id,
             'email': self.email,
-            'stocks': [stock.serialize() for stock in self.stocks]
+            'stocks': sorted([stock.serialize() for stock in self.stocks], key=itemgetter("ticker"))
         }
 
    
@@ -83,15 +78,13 @@ class Stock(db.Model):
     company = db.Column(db.String, nullable=False)
     price = db.Column(db.Integer, nullable=True)
     p_change = db.Column(db.Float, nullable=True)
-    p_diff = db.Column(db.Float, nullable=True)
-    notification_users = db.relationship('User', secondary=notification_association_table)
 
     def __init__(self, **kwargs):
         self.ticker = kwargs.get('ticker')
         self.company = kwargs.get('company')
-        self.price = kwargs.get('price')
-        self.p_change = kwargs.get('pchange')
-        self.p_diff = 0.0
+        self.price = 0.0
+        self.p_change = 0.0
+
         
     def serialize(self):
         return {
@@ -99,9 +92,7 @@ class Stock(db.Model):
             'ticker': self.ticker,
             'company': self.company,
             'price': self.price,
-            'p_change': self.p_change,
-            'p_diff': self.p_diff,
-            'notification users': [user.serialize() for user in self.notification_users]
+            'p_change': self.p_change
         }
 
 
@@ -114,7 +105,6 @@ class Stock(db.Model):
 
         self.price = float(price[:-1])
         self.p_change = float(p_change[:-1])
-        self.p_diff = self.p_change - self.p_diff
         return self.serialize()
 
 

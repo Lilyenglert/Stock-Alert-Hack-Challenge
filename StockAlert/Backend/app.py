@@ -93,10 +93,7 @@ def login():
 
         return json.dumps({
             'success': True,
-            'user': user.serialize(),
-            'session_token': user.session_token,
-            'session_expiration': str(user.session_expiration),
-            'update_token': user.update_token
+            'user': [user.serialize()],
         }), 201
 
     else: 
@@ -107,10 +104,7 @@ def login():
         
         return json.dumps({
             'success': True,
-            'user': user.serialize(),
-            'session_token': user.session_token,
-            'session_expiration': str(user.session_expiration),
-            'update_token': user.update_token
+            'user': [user.serialize()],
         }), 200
 
 
@@ -269,7 +263,7 @@ def add_stock_to_user(user_id):
     user.stocks.append(stock)
     db.session.add(user)
     db.session.commit()
-    return json.dumps({'success': True, 'data': user.serialize()}), 200
+    return json.dumps({'success': True, 'data': [user.serialize()]}), 200
     
 
 @app.route('/api/stock/<string:ticker>/add/', methods=['POST'])
