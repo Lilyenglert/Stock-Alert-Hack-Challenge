@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         TWTRTwitter.sharedInstance().start(withConsumerKey:"XYJ4UqLotjyHrrh6JPkDvWDEW", consumerSecret:"Mo0VvdvbAyRcYundawiFqylBZHExF2tOEDWThEHsxab7TIdcQE")
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: TabViewController())
+        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
         window?.makeKeyAndVisible()
         return true
     }

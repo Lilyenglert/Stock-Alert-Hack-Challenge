@@ -1,20 +1,28 @@
 PODS:
+  - Alamofire (4.8.2)
+  - SnapKit (5.0.0)
   - TwitterCore (3.2.0)
   - TwitterKit (3.4.2):
     - TwitterCore (>= 3.2.0)
 
 DEPENDENCIES:
+  - Alamofire
+  - SnapKit
   - TwitterKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - SnapKit
     - TwitterCore
     - TwitterKit
 
 SPEC CHECKSUMS:
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 676f2dde43b8fa294e6d6cb92620346519e80353
+PODFILE CHECKSUM: 1358eacc63fb63ba1e1561af1d45a8da18336fbf
 
 COCOAPODS: 1.6.1
