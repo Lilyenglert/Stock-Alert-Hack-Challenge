@@ -11,6 +11,8 @@ Stock Alert is an iOS app that allows a user to create an account and track stoc
 
 ### Meeting the requirements
 #### iOS
+The iOS portion contains two main screens accessible using the bottom navigation bar (UITabBarController). One screen allows users to view their favorited stocks and some of the basic information about each. We implemented this using a UITableView. The second main screen allows you to add a stock to your favorites and then saves it to your profile. 
+
 
 #### Backend
 The backend portion contains an api that acts as a communicator between the frontend and the various APIs we use. There are methods for creating and logging in users, adding stocks to a user's profile, and grabbing tweets on the user's stocks. The database is accessible through a Google Cloud VM under http://35.231.31.32/. 
