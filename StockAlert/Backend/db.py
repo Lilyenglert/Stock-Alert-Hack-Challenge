@@ -7,7 +7,10 @@ import json
 import requests
 from operator import itemgetter
 
+
 db = SQLAlchemy()
+apikey1 = "&apikey=17R294ZH2B8H0OUU"
+apikey2 = "&apikey=SV2GTG9PQ058TZ6C"
 
 user_stocks_association_table = db.Table(
     "user's stocks", db.Model.metadata,
@@ -84,7 +87,6 @@ class Stock(db.Model):
         self.company = kwargs.get('company')
         self.price = 0.0
         self.p_change = 0.0
-
         
     def serialize(self):
         return {
@@ -95,9 +97,8 @@ class Stock(db.Model):
             'p_change': self.p_change
         }
 
-
     def update(self):
-        apilink = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + self.ticker + "&apikey=17R294ZH2B8H0OUU"
+        apilink = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + self.ticker + apikey2
         r = requests.get(apilink)
         content = r.json()
         price = content["Global Quote"]["05. price"]
@@ -105,6 +106,8 @@ class Stock(db.Model):
 
         self.price = float(price[:-1])
         self.p_change = float(p_change[:-1])
+
         return self.serialize()
+
 
 

@@ -3,8 +3,11 @@ from flask import Flask, request
 from db import db, User, Stock
 import users_dao
 import re
-from password_strength import PasswordStats
+from twython import Twython
 
+
+withConsumerKey = "XYJ4UqLotjyHrrh6JPkDvWDEW"
+consumerSecret = "Mo0VvdvbAyRcYundawiFqylBZHExF2tOEDWThEHsxab7TIdcQE"
 
 
 #import environment variables from the host OS
@@ -37,14 +40,6 @@ if isValidEmail("my.email@gmail.com") == True :
 else:
  print ("This is not a valid email address")
 
-def checkPassword(password):
-    stats= PasswordStats(password)
-    if (stats.strength()<0.3333): return "weak"
-    if (stats.strength()<0.6666): return "medium"
-    else:
-        return "strong"
-
-print(checkPassword('V3ryG00dPassw0rd?!'))
 
 def extract_token(request):
     auth_header = request.headers.get('Authorization')
@@ -62,7 +57,6 @@ def register_account():
     post_body = json.loads(request.data)
     email = post_body.get('email')
     password = post_body.get('password')
-    password_check= checkPassword(password)
 
 
     if email is None or password is None:
@@ -81,8 +75,7 @@ def register_account():
         'user': user.serialize(),
         'session_token': user.session_token,
         'session_expiration': str(user.session_expiration),
-        'update_token': user.update_token,
-        'password_strength' : password_check
+        'update_token': user.update_token
     })
 
 @app.route('/login/', methods=['POST'])
@@ -300,27 +293,7 @@ def add_stock_to_user(user_id):
     db.session.add(user)
     db.session.commit()
     return json.dumps({'success': True, 'data': [user.serialize()]}), 200
-    
-
-@app.route('/api/stock/<string:ticker>/add/', methods=['POST'])
-def add_user_to_stock_notification(ticker):
-    post_body = json.loads(request.data)
-    user_id = post_body.get('user_id', '')
-
-    user = User.query.filter_by(id=user_id).first()
-    stock = Stock.query.filter_by(ticker=ticker).first()
-
-    if user is None:
-        return json.dumps({'success': False, 'error': 'User not found'}), 404
-    
-    if stock is None:
-        return json.dumps({'success': False, 'error': 'Stock not found'}), 404
-
-    stock.notification_users.append(user)
-    db.session.add(stock)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': stock.serialize()}), 200
-    
+        
 
 #AlphaVantage API related functions
 #Updates the stock information
@@ -346,6 +319,40 @@ def searching_stocks(search_str):
 
     return json.dumps({'success': True, 'data': {"names": names, "tickers": tickers}}), 200
 
+
+#Twitter
+def get_a_tweet(ticker):
+    python_tweets = Twython(withConsumerKey, consumerSecret)
+    query = {
+        'q': "#$" + ticker,
+        'result_type': 'popular',
+        'count': 5,
+        'lang': 'en'
+    }
+
+    results = []
+
+    for status in python_tweets.search(**query)['statuses']:
+        new_tweet = {
+            'user': status['user']['screen_name'],
+            'text': status['text']
+        }
+        results.append(new_tweet)
+
+    return results
+            
+
+@app.route('/api/user/<int:user_id>/tweets/')
+def get_tweets(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        return json.dumps({'success': False, 'error': 'User not found'}), 404
+    
+    result = []
+    for stock in user.stocks:
+        result = result + get_a_tweet(stock.ticker)
+
+    return json.dumps({'success':True, 'data': result}), 200
 
 
 if __name__ == '__main__':
