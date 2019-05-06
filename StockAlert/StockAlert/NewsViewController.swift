@@ -7,16 +7,28 @@
 //
 
 import UIKit
-import TwitterKit
+//import TwitterKit
 
 class NewsViewController: UIViewController {
 
     var newstableView: UITableView!
-    var news: [News] = []
-    var tweetData: [TWTRTweet] = []
+    //var news: [News] = []
+    var tweets: [Tweet] = []
+    //var tweetData: [TWTRTweet] = []
     
     let reuseIdentifier = "newsCellReuse"
     let cellHeight: CGFloat = 75
+    
+    var user: User
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +42,12 @@ class NewsViewController: UIViewController {
         newstableView.dataSource = self
         newstableView.backgroundColor = .white
 //        newstableView.layer.cornerRadius = 5
-        newstableView.register(StocksTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        newstableView.register(TwitterTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         view.addSubview(newstableView)
         
         setupConstraints()
-        loadNews()
+        //loadNews()
+        loadTweets(id: user.id)
     }
     
     func setupConstraints() {
@@ -47,7 +60,30 @@ class NewsViewController: UIViewController {
             ])
     }
     
-    func loadNews() {
+    @objc func loadTweets (id: Int) {
+        NetworkManager.getTweets(id: id) { tweets in
+            if  tweets.success {
+                //print(tweets.data.count)
+                if tweets.data.count == 0 {
+                    let alert = UIAlertController(title: "No Tweets", message: "Unable to load Tweets!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                } else {
+                    for tweet in tweets.data {
+                        //print(stockPulled.ticker)
+                        self.tweets.append(tweet)
+                        self.newstableView.reloadData()
+                    }
+                }
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "Unable to load Tweets", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+    
+    /*func loadNews() {
         let client = TWTRAPIClient()
         let statusesShowEndpoint = "https://api.twitter.com/1.1/search/tweets.json"
         let params = ["q": "AAPL", "count": "5", "result_type": "popular"]
@@ -68,7 +104,7 @@ class NewsViewController: UIViewController {
                 print("json error: \(jsonError.localizedDescription)")
             }
         }
-    }
+    }*/
 
 }
 
@@ -77,8 +113,8 @@ extension NewsViewController: UITableViewDataSource {
     /// Tell the table view how many rows should be in each section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if !news.isEmpty {
-            return news.count
+        if !tweets.isEmpty {
+            return tweets.count
         } else {
             return 0
         }
@@ -86,10 +122,10 @@ extension NewsViewController: UITableViewDataSource {
     
     /// Tell the table view what cell to display for each row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! StocksTableViewCell
-        //let newsItem = news[indexPath.row]
-        //cell.configure(for: stock)
-        //cell.selectionStyle = .gray
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! TwitterTableViewCell
+        let tweetItem = tweets[indexPath.row]
+        cell.configure(for: tweetItem)
+        cell.selectionStyle = .gray
         
         return cell
     }
@@ -106,7 +142,7 @@ extension NewsViewController: UITableViewDelegate {
     /// Tell the table view what should happen if we select a row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //let newsItem = news[indexPath.row]
-        let tweet = tweetData[indexPath.row]
+        //let tweet = tweetData[indexPath.row]
         //let updateViewController = UpdateViewController(stock: stock)
         //updateViewController.delegate = self
         //present(updateViewController, animated: true, completion: nil)

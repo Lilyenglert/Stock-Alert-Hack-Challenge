@@ -16,6 +16,8 @@ class LoginViewController: UIViewController {
     var userNameTextView: UITextView!
     var passwordTextView: UITextView!
     
+    var noteTextView: UITextView!
+    
     var loginButton: UIButton!
     
     weak var delegate: UserLoginDelegate?
@@ -26,6 +28,16 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         view.backgroundColor = .white
+        
+        noteTextView = UITextView()
+        noteTextView.translatesAutoresizingMaskIntoConstraints = false
+        noteTextView.text = "Note: The Email address & password you use first will be registered as New User. Use same details for future login"
+        noteTextView.textAlignment = .center
+        noteTextView.isEditable = false
+        noteTextView.isScrollEnabled = false
+        noteTextView.font = UIFont.systemFont(ofSize: 16)
+        noteTextView.textColor = .black
+        view.addSubview(noteTextView)
         
         userNameTextView = UITextView()
         userNameTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +55,11 @@ class LoginViewController: UIViewController {
         userNameTextField.textAlignment = .left
         userNameTextField.font = UIFont.systemFont(ofSize: 16)
         userNameTextField.textColor = .black
-        userNameTextField.backgroundColor = .lightGray
+        userNameTextField.backgroundColor = .white
+        userNameTextField.textColor = .black
+        userNameTextField.layer.borderWidth = 1
+        userNameTextField.layer.cornerRadius = 4
+        userNameTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(userNameTextField)
         
         passwordTextView = UITextView()
@@ -60,9 +76,14 @@ class LoginViewController: UIViewController {
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.text = ""
         passwordTextField.textAlignment = .left
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.font = UIFont.systemFont(ofSize: 16)
         passwordTextField.textColor = .black
-        passwordTextField.backgroundColor = .lightGray
+        passwordTextField.backgroundColor = .white
+        passwordTextField.textColor = .black
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.cornerRadius = 4
+        passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(passwordTextField)
         
         loginButton = UIButton()
@@ -96,14 +117,21 @@ class LoginViewController: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            userNameTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 250),
+            noteTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
+            noteTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            noteTextView.heightAnchor.constraint(equalToConstant: 100),
+            noteTextView.widthAnchor.constraint(equalToConstant: 300)
+            ])
+        
+        NSLayoutConstraint.activate([
+            userNameTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -250),
             userNameTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -90),
             userNameTextView.heightAnchor.constraint(equalToConstant: 30),
             userNameTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
         
         NSLayoutConstraint.activate([
-            userNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 250),
+            userNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -250),
             userNameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 90),
             userNameTextField.heightAnchor.constraint(equalToConstant: 30),
             userNameTextField.widthAnchor.constraint(equalToConstant: 150)

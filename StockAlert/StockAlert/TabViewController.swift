@@ -43,19 +43,22 @@ class TabViewController: UITabBarController {
         
         let addStockViewController = AddStockViewController()
         
-        addStockViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        //addStockViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        addStockViewController.tabBarItem = UITabBarItem(title: "Add Tracking", image: UIImage (named: "alert"), tag: 0)
         
         let homeViewController = ViewController(user: user)
         
-        homeViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        //homeViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage (named: "home"), tag: 1)
         
-        let newsViewController = NewsViewController()
+        let newsViewController = NewsViewController(user: user)
         
-        let news = UITabBarItem(tabBarSystemItem: .mostViewed, tag: 2)
-        
-        newsViewController.tabBarItem = news
+        //newsViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .mostViewed, tag: 2)
+        newsViewController.tabBarItem = UITabBarItem(title: "Twitter News", image: UIImage (named: "twitter"), tag: 2)
         
         let tabBarList = [homeViewController, newsViewController, addStockViewController]
+        
+        //newsViewController.tabBarItem.image = UIImage (named: "twitter")
         
         
         viewControllers = tabBarList

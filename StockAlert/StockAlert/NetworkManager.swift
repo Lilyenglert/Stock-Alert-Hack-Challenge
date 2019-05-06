@@ -15,6 +15,27 @@ class NetworkManager {
     private static let searchEndpoint = "http://35.231.31.32/search/Micro"
     private static let homepageEndpoint = "http://35.231.31.32/home/user/"
     private static let addStockEndpoint = "http://35.231.31.32/api/user/"
+    private static let tweetsEndpoint = "http://35.231.31.32/api/user/"
+    
+    static func getTweets(id: Int, completion: @escaping (Tweets) -> Void) {
+        let getTweetEndpoint = tweetsEndpoint + String(id) + "/tweets/"
+        Alamofire.request(getTweetEndpoint, method: .get).validate().responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                if let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+                    print(json)
+                }
+                let jsonDecoder = JSONDecoder()
+                if let homepageResponse = try? jsonDecoder.decode(Tweets.self, from: data) {
+                    completion(homepageResponse)
+                } else {
+                    print("Invalid Response Data")
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     static func getHomepage(id: Int, completion: @escaping (Homepage) -> Void) {
         let homeEndpoint = homepageEndpoint + String(id) + "/"

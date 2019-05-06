@@ -19,6 +19,7 @@
 		9FCC7C3E226FD58D007E09C0 /* StocksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC7C3D226FD58D007E09C0 /* StocksTableViewCell.swift */; };
 		9FCC7C40226FDD34007E09C0 /* UpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC7C3F226FDD34007E09C0 /* UpdateViewController.swift */; };
 		9FCC7C42226FF246007E09C0 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC7C41226FF246007E09C0 /* TabViewController.swift */; };
+		9FE61D00227FDA8800D7F440 /* TwitterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE61CFF227FDA8800D7F440 /* TwitterTableViewCell.swift */; };
 		9FFD9CE9227E71A20099A6DA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD9CE8227E71A20099A6DA /* LoginViewController.swift */; };
 		9FFD9CEB227E750E0099A6DA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD9CEA227E750E0099A6DA /* NetworkManager.swift */; };
 		9FFD9CED227E75C60099A6DA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD9CEC227E75C60099A6DA /* User.swift */; };
@@ -39,6 +40,7 @@
 		9FCC7C3D226FD58D007E09C0 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
 		9FCC7C3F226FDD34007E09C0 /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		9FCC7C41226FF246007E09C0 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
+		9FE61CFF227FDA8800D7F440 /* TwitterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterTableViewCell.swift; sourceTree = "<group>"; };
 		9FFD9CE8227E71A20099A6DA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9FFD9CEA227E750E0099A6DA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9FFD9CEC227E75C60099A6DA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				9FCC7C3F226FDD34007E09C0 /* UpdateViewController.swift */,
 				9F796EAA227394E6008A7363 /* AddStockViewController.swift */,
 				9FCC7C3D226FD58D007E09C0 /* StocksTableViewCell.swift */,
+				9FE61CFF227FDA8800D7F440 /* TwitterTableViewCell.swift */,
 				9FCC7C3B226FD1D1007E09C0 /* Stock.swift */,
 				9FCC7C30226F940B007E09C0 /* Assets.xcassets */,
 				9FCC7C32226F940B007E09C0 /* LaunchScreen.storyboard */,
@@ -271,6 +274,7 @@
 				9FCC7C2A226F940A007E09C0 /* AppDelegate.swift in Sources */,
 				9FCC7C3E226FD58D007E09C0 /* StocksTableViewCell.swift in Sources */,
 				9FCC7C3C226FD1D1007E09C0 /* Stock.swift in Sources */,
+				9FE61D00227FDA8800D7F440 /* TwitterTableViewCell.swift in Sources */,
 				9FFD9CED227E75C60099A6DA /* User.swift in Sources */,
 				9FCC7C40226FDD34007E09C0 /* UpdateViewController.swift in Sources */,
 				9FFD9CE9227E71A20099A6DA /* LoginViewController.swift in Sources */,

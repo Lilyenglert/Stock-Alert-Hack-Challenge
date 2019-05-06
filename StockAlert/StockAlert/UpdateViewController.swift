@@ -12,15 +12,15 @@ class UpdateViewController: UIViewController  {
    
     var companyNameTextField: UITextField!
     var stockTickerTextField: UITextField!
-    var notificationTypeSegmentControl: UISegmentedControl!
+    //var notificationTypeSegmentControl: UISegmentedControl!
     var notificationPriceTextField: UITextField!
-    var newsSourcePickerView: UIPickerView!
-    var newsSourceTextField: UITextField!
+    //var newsSourcePickerView: UIPickerView!
+    //var newsSourceTextField: UITextField!
     var addUpdateButton: UIButton!
     
     var companyNameTextView: UITextView!
     var stockTickerTextView: UITextView!
-    var notificationTypeTextView: UITextView!
+    //var notificationTypeTextView: UITextView!
     var notificationPriceTextView: UITextView!
     var newsSourceTextView: UITextView!
     
@@ -62,6 +62,7 @@ class UpdateViewController: UIViewController  {
         companyNameTextField.translatesAutoresizingMaskIntoConstraints = false
         companyNameTextField.text = stock.companyName
         companyNameTextField.textAlignment = .left
+        companyNameTextField.isEnabled = false
         companyNameTextField.font = UIFont.systemFont(ofSize: 16)
         companyNameTextField.textColor = .black
         companyNameTextField.backgroundColor = .white
@@ -84,6 +85,7 @@ class UpdateViewController: UIViewController  {
         stockTickerTextField.translatesAutoresizingMaskIntoConstraints = false
         stockTickerTextField.text = stock.stockTicker
         stockTickerTextField.textAlignment = .left
+        stockTickerTextField.isEnabled = false
         stockTickerTextField.font = UIFont.systemFont(ofSize: 16)
         stockTickerTextField.textColor = .black
         stockTickerTextField.backgroundColor = .white
@@ -92,7 +94,7 @@ class UpdateViewController: UIViewController  {
         stockTickerTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(stockTickerTextField)
 
-        notificationTypeTextView = UITextView()
+        /*notificationTypeTextView = UITextView()
         notificationTypeTextView.translatesAutoresizingMaskIntoConstraints = false
         notificationTypeTextView.text = "Notification Type: "
         notificationTypeTextView.textAlignment = .right
@@ -100,10 +102,10 @@ class UpdateViewController: UIViewController  {
         notificationTypeTextView.isScrollEnabled = false
         notificationTypeTextView.font = UIFont.systemFont(ofSize: 16)
         notificationTypeTextView.textColor = .black
-        view.addSubview(notificationTypeTextView)
+        view.addSubview(notificationTypeTextView)*/
         
         let items = ["Above", "Below"]
-        notificationTypeSegmentControl = UISegmentedControl(items: items)
+        /*notificationTypeSegmentControl = UISegmentedControl(items: items)
         notificationTypeSegmentControl.center = self.view.center
         if  stock.notificationType == .above {
             notificationTypeSegmentControl.selectedSegmentIndex = 0
@@ -113,7 +115,7 @@ class UpdateViewController: UIViewController  {
         notificationTypeSegmentControl.addTarget(self, action: #selector(segmentToggle(_:)), for: .valueChanged)
         notificationTypeSegmentControl.translatesAutoresizingMaskIntoConstraints = false
         notificationTypeSegmentControl.tintColor = .lightGray
-        view.addSubview(notificationTypeSegmentControl)
+        view.addSubview(notificationTypeSegmentControl)*/
 
         notificationPriceTextView = UITextView()
         notificationPriceTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -128,6 +130,7 @@ class UpdateViewController: UIViewController  {
         notificationPriceTextField = UITextField()
         notificationPriceTextField.translatesAutoresizingMaskIntoConstraints = false
         notificationPriceTextField.text = String(stock.notificationPrice)
+        notificationPriceTextField.isEnabled = false
         notificationPriceTextField.textAlignment = .left
         notificationPriceTextField.font = UIFont.systemFont(ofSize: 16)
         notificationPriceTextField.textColor = .black
@@ -139,7 +142,7 @@ class UpdateViewController: UIViewController  {
         
         addUpdateButton = UIButton()
         addUpdateButton.translatesAutoresizingMaskIntoConstraints = false
-        addUpdateButton.setTitle("Update Tracking", for: .normal)
+        addUpdateButton.setTitle("OK", for: .normal)
         addUpdateButton.setTitleColor(.blue, for: .normal)
         addUpdateButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         addUpdateButton.addTarget(self, action: #selector(dismissViewControllerAndUpdateSong), for: .touchUpInside)
@@ -178,7 +181,7 @@ class UpdateViewController: UIViewController  {
             stockTickerTextField.widthAnchor.constraint(equalToConstant: 150)
             ])
 
-        NSLayoutConstraint.activate([
+        /*NSLayoutConstraint.activate([
             notificationTypeTextView.topAnchor.constraint(equalTo: stockTickerTextView.bottomAnchor, constant: 10),
             notificationTypeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             notificationTypeTextView.heightAnchor.constraint(equalToConstant: 30),
@@ -190,17 +193,17 @@ class UpdateViewController: UIViewController  {
             notificationTypeSegmentControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             notificationTypeSegmentControl.heightAnchor.constraint(equalToConstant: 30),
             notificationTypeSegmentControl.widthAnchor.constraint(equalToConstant: 150)
-            ])
+            ])*/
 
         NSLayoutConstraint.activate([
-            notificationPriceTextView.topAnchor.constraint(equalTo: notificationTypeTextView.bottomAnchor, constant: 10),
+            notificationPriceTextView.topAnchor.constraint(equalTo: stockTickerTextView.bottomAnchor, constant: 10),
             notificationPriceTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             notificationPriceTextView.heightAnchor.constraint(equalToConstant: 30),
             notificationPriceTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
 
         NSLayoutConstraint.activate([
-            notificationPriceTextField.topAnchor.constraint(equalTo: notificationTypeTextView.bottomAnchor, constant: 10),
+            notificationPriceTextField.topAnchor.constraint(equalTo: stockTickerTextView.bottomAnchor, constant: 10),
             notificationPriceTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             notificationPriceTextField.heightAnchor.constraint(equalToConstant: 30),
             notificationPriceTextField.widthAnchor.constraint(equalToConstant: 150)
@@ -230,11 +233,11 @@ class UpdateViewController: UIViewController  {
         if let companyName = companyNameTextField.text, companyName != "", let stockTicker = stockTickerTextField.text, stockTicker != "", let notificationPrice = notificationPriceTextField.text, notificationPrice != ""  {
             stock.companyName = companyName
             stock.stockTicker = stockTicker
-            if notificationTypeSegmentControl.selectedSegmentIndex == 0 {
+            //if notificationTypeSegmentControl.selectedSegmentIndex == 0 {
                 stock.notificationType = .above
-            } else {
-                stock.notificationType = .below
-            }
+            //} else {
+            //    stock.notificationType = .below
+            //}
             stock.notificationPrice = Int(notificationPrice)!
             delegate?.updateStock(stock: stock)
         }

@@ -12,17 +12,17 @@ class AddStockViewController: UIViewController {
 
     var companyNameTextField: UITextField!
     var stockTickerTextField: UITextField!
-    var notificationTypeSegmentControl: UISegmentedControl!
-    var notificationPriceTextField: UITextField!
-    var newsSourcePickerView: UIPickerView!
-    var newsSourceTextField: UITextField!
+    //var notificationTypeSegmentControl: UISegmentedControl!
+    //var notificationPriceTextField: UITextField!
+    //var newsSourcePickerView: UIPickerView!
+    //var newsSourceTextField: UITextField!
     var addUpdateButton: UIButton!
     
     var companyNameTextView: UITextView!
     var stockTickerTextView: UITextView!
-    var notificationTypeTextView: UITextView!
-    var notificationPriceTextView: UITextView!
-    var newsSourceTextView: UITextView!
+    //var notificationTypeTextView: UITextView!
+    //var notificationPriceTextView: UITextView!
+    //var newsSourceTextView: UITextView!
     
     var pickOption = ["Twitter", "The New York Times"]
     
@@ -85,7 +85,7 @@ class AddStockViewController: UIViewController {
         stockTickerTextField.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(stockTickerTextField)
         
-        notificationTypeTextView = UITextView()
+        /*notificationTypeTextView = UITextView()
         notificationTypeTextView.translatesAutoresizingMaskIntoConstraints = false
         notificationTypeTextView.text = "Watch Threshold: "
         notificationTypeTextView.textAlignment = .right
@@ -93,10 +93,10 @@ class AddStockViewController: UIViewController {
         notificationTypeTextView.isScrollEnabled = false
         notificationTypeTextView.font = UIFont.systemFont(ofSize: 16)
         notificationTypeTextView.textColor = .black
-        view.addSubview(notificationTypeTextView)
+        view.addSubview(notificationTypeTextView)*/
         
         let items = ["Above", "Below"]
-        notificationTypeSegmentControl = UISegmentedControl(items: items)
+        /*notificationTypeSegmentControl = UISegmentedControl(items: items)
         notificationTypeSegmentControl.center = self.view.center
         notificationTypeSegmentControl.selectedSegmentIndex = 0
         notificationTypeSegmentControl.addTarget(self, action: #selector(segmentToggle(_:)), for: .valueChanged)
@@ -124,7 +124,7 @@ class AddStockViewController: UIViewController {
         notificationPriceTextField.layer.borderWidth = 1
         notificationPriceTextField.layer.cornerRadius = 4
         notificationPriceTextField.layer.borderColor = UIColor.lightGray.cgColor
-        view.addSubview(notificationPriceTextField)
+        view.addSubview(notificationPriceTextField)*/
         
         addUpdateButton = UIButton()
         addUpdateButton.translatesAutoresizingMaskIntoConstraints = false
@@ -140,14 +140,14 @@ class AddStockViewController: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            companyNameTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            companyNameTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
             companyNameTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             companyNameTextView.heightAnchor.constraint(equalToConstant: 30),
             companyNameTextView.widthAnchor.constraint(equalToConstant: 200)
             ])
         
         NSLayoutConstraint.activate([
-            companyNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            companyNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
             companyNameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             companyNameTextField.heightAnchor.constraint(equalToConstant: 30),
             companyNameTextField.widthAnchor.constraint(equalToConstant: 150)
@@ -167,7 +167,7 @@ class AddStockViewController: UIViewController {
             stockTickerTextField.widthAnchor.constraint(equalToConstant: 150)
             ])
         
-        NSLayoutConstraint.activate([
+        /*NSLayoutConstraint.activate([
             notificationTypeTextView.topAnchor.constraint(equalTo: stockTickerTextView.bottomAnchor, constant: 15),
             notificationTypeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
             notificationTypeTextView.heightAnchor.constraint(equalToConstant: 30),
@@ -193,7 +193,7 @@ class AddStockViewController: UIViewController {
             notificationPriceTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             notificationPriceTextField.heightAnchor.constraint(equalToConstant: 30),
             notificationPriceTextField.widthAnchor.constraint(equalToConstant: 150)
-            ])
+            ])*/
         
         NSLayoutConstraint.activate([
             addUpdateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
@@ -216,14 +216,17 @@ class AddStockViewController: UIViewController {
     
     @objc func dismissViewControllerAndUpdateSong() {
         
-        if let companyName = companyNameTextField.text, companyName != "", let stockTicker = stockTickerTextField.text, stockTicker != "", let notificationPrice = notificationPriceTextField.text, notificationPrice != ""  {
+        if let companyName = companyNameTextField.text, companyName != "", let stockTicker = stockTickerTextField.text, stockTicker != ""  {
+            let alert = UIAlertController(title: "NOTE: Due to API limits", message: "Price will be $0 till next Login!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
             let stock = Stock(companyName: companyName, stockTicker: stockTicker.uppercased(), notificationType: .above, notificationPrice: 0, newsSource: .Twitter)
-            if notificationTypeSegmentControl.selectedSegmentIndex == 0 {
+            //if notificationTypeSegmentControl.selectedSegmentIndex == 0 {
                 stock.notificationType = .above
-            } else {
-                stock.notificationType = .below
-            }
-            stock.notificationPrice = Int(notificationPrice)!
+            //} else {
+            //    stock.notificationType = .below
+            //}
+            stock.notificationPrice = 0
             let controllers = tabBarController?.viewControllers
             let home = controllers![0] as! ViewController
             

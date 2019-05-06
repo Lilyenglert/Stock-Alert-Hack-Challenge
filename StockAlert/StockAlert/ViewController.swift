@@ -27,8 +27,8 @@ class ViewController: UIViewController {
     
     init(user: User) {
         self.user = user
-        print("Creating User")
-        print(self.user.id)
+        //print("Creating User")
+        //print(self.user.id)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,8 +57,8 @@ class ViewController: UIViewController {
 //        self.tableView.rowHeight = 44.0
         setupConstraints()
         
-        print("Before getting homepage")
-        print(user.id)
+        //print("Before getting homepage")
+        //print(user.id)
         getHomepage(id: user.id)
         
     }
@@ -66,15 +66,15 @@ class ViewController: UIViewController {
     @objc func getHomepage (id: Int) {
         NetworkManager.getHomepage(id: id) { homepage in
             if  homepage.success {
-                print("Got Homepage!")
-                print(homepage.stocks.count)
+                //print("Got Homepage!")
+                //print(homepage.stocks.count)
                 if homepage.stocks.count == 0 {
                     let alert = UIAlertController(title: "No Stock Tracking Present", message: "Please add new tracking!", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                     self.present(alert, animated: true)
                 } else {
                     for stockPulled in homepage.stocks {
-                        print(stockPulled.ticker)
+                        //print(stockPulled.ticker)
                         self.stocks.append(Stock(companyName: stockPulled.company, stockTicker: stockPulled.ticker, notificationType: .below, notificationPrice: Int(stockPulled.price), newsSource: .Twitter))
                         self.tableView.reloadData()
                     }
@@ -99,6 +99,8 @@ class ViewController: UIViewController {
                 self.present(alert, animated: true)
             }
         }
+        //stocks.removeAll()
+        //getHomepage(id: user.id)
         
         tableView.reloadData()
     }

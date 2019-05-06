@@ -40,3 +40,13 @@ struct Stocks: Codable {
     var price: Float
     var ticker: String
 }
+
+struct Tweets: Codable {
+    var success: Bool
+    var data: [Tweet]
+}
+
+struct Tweet: Codable {
+    var text: String
+    var user: String
+}
