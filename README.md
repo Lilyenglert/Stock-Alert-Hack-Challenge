@@ -5,6 +5,10 @@
 Note: This repository contains both the iOS frontend and the backend. 
 
 Screenshots:
+![Logging in](https://i.imgur.com/ceboDCa.png)
+![User homepage](https://i.imgur.com/vbvxTlb.png)
+![Adding stocks](https://i.imgur.com/alZ1G7O.png)
+![Tweets](https://i.imgur.com/QpVEAxh.png)
 
 ### Description:
 Stock Alert is an iOS app that allows a user to create an account and track stocks. Through a simple homepage, the user can view their stock prices and percent change. These bits of information are updated each time a user refreshes their homepage. Furthermore, the user can view the latest tweets on their stocks. 
