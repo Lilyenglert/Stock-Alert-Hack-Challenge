@@ -72,6 +72,12 @@ class ViewController: UIViewController {
                     let alert = UIAlertController(title: "No Stock Tracking Present", message: "Please add new tracking!", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                     self.present(alert, animated: true)
+                } else {
+                    for stockPulled in homepage.stocks {
+                        print(stockPulled.ticker)
+                        self.stocks.append(Stock(companyName: stockPulled.company, stockTicker: stockPulled.ticker, notificationType: .below, notificationPrice: Int(stockPulled.price), newsSource: .Twitter))
+                        self.tableView.reloadData()
+                    }
                 }
             } else {
                 let alert = UIAlertController(title: "Alert", message: "Unable to Refresh", preferredStyle: .alert)
