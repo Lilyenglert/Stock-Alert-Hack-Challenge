@@ -3,6 +3,8 @@ from flask import Flask, request
 from db import db, User, Stock
 import users_dao
 import re
+from password_strength import PasswordStats
+
 
 
 #import environment variables from the host OS
@@ -35,6 +37,14 @@ if isValidEmail("my.email@gmail.com") == True :
 else:
  print ("This is not a valid email address")
 
+def checkPassword(password):
+    stats= PasswordStats(password)
+    if (stats.strength()<0.3333): return "weak"
+    if (stats.strength()<0.6666): return "medium"
+    else:
+        return "strong"
+
+print(checkPassword('V3ryG00dPassw0rd?!'))
 
 def extract_token(request):
     auth_header = request.headers.get('Authorization')
@@ -52,6 +62,8 @@ def register_account():
     post_body = json.loads(request.data)
     email = post_body.get('email')
     password = post_body.get('password')
+    password_check= checkPassword(password)
+
 
     if email is None or password is None:
         return json.dumps({'success': False, 'error': 'Invalid email or password'})
@@ -69,7 +81,8 @@ def register_account():
         'user': user.serialize(),
         'session_token': user.session_token,
         'session_expiration': str(user.session_expiration),
-        'update_token': user.update_token
+        'update_token': user.update_token,
+        'password_strength' : password_check
     })
 
 @app.route('/login/', methods=['POST'])
@@ -223,6 +236,29 @@ def delete_stock(stock_id):
         db.session.commit()
         return json.dumps({'success': True, 'data': stock.serialize()}), 200
     return json.dumps({'success': False, 'error': 'Stock not found'}), 404
+
+
+@app.route('/api/stock/<int:user_id>/delete/', methods=['DELETE'])
+def delete_stock_for_user(user_id):
+    post_body = json.loads(request.data)
+    ticker = post_body.get('ticker', '')
+
+    user = User.query.filter_by(id=user_id).first()
+    stock = Stock.query.filter_by(ticker=ticker).first()
+
+    if user is None:
+        return json.dumps({'success': False, 'error': 'User not found'}), 404
+
+    if stock is None:
+        return json.dumps({'success': False, 'error': 'Stock not found'}), 404
+
+    if stock is not None:
+        db.session.delete(stock)
+        db.session.commit()
+        return json.dumps({'success': True, 'data': stock.serialize()}), 200
+
+    
+
 
 @app.route('/api/stock/<string:stock_ticker>/')
 def get_stock_by_ticker(stock_ticker):
