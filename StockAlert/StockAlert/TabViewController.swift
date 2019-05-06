@@ -25,10 +25,21 @@ class TabViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//        title = "stocks"
         // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.isTranslucent = true
+        let imageView = UIImageView(frame: (CGRect(x: 0, y: 0, width: 100, height: 20)))
+        imageView.contentMode = .scaleAspectFit
+//        self.UINavigationBar.bounds = view.frame.insetBy(dx: 10.0, dy: 10.0)
+        let image = UIImage (named: "logStocks")
+        imageView.clipsToBounds = true
+        imageView.image = image
+        self.navigationItem.titleView = imageView
+        self.navigationItem.titleView?.contentMode = .scaleAspectFit
+        self.navigationItem.titleView?.clipsToBounds = true
+//        self.clipsto
         
-        title = "STOCK ALERT"
+       
         
         let addStockViewController = AddStockViewController()
         
@@ -40,15 +51,24 @@ class TabViewController: UITabBarController {
         
         let newsViewController = NewsViewController()
         
-        newsViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+        let news = UITabBarItem(tabBarSystemItem: .mostViewed, tag: 2)
         
-        let tabBarList = [homeViewController, addStockViewController, newsViewController]
+        newsViewController.tabBarItem = news
         
+        let tabBarList = [homeViewController, newsViewController, addStockViewController]
         
         
         viewControllers = tabBarList
     }
     
+//    func setupConstraints() {
+//        // Setup the constraints for our views
+//        NSLayoutConstraint.activate([
+//            image.setContentHuggingPriority(UILayoutPriority(rawValue: 249), for: .horizontal),
+//            image.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 249), for: .horizontal),
+//            image.setContentHuggingPriority(UILayoutPriority(rawValue: 249), for: .vertical),
+//            image.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 249), for: .vertical)
+//    )}
     /*
     // MARK: - Navigation
 

@@ -207,7 +207,7 @@ class AddStockViewController: UIViewController {
     @objc func dismissViewControllerAndUpdateSong() {
         
         if let companyName = companyNameTextField.text, companyName != "", let stockTicker = stockTickerTextField.text, stockTicker != "", let notificationPrice = notificationPriceTextField.text, notificationPrice != ""  {
-            let stock = Stock(companyName: companyName, stockTicker: stockTicker, notificationType: .above, notificationPrice: 0, newsSource: .Twitter)
+            let stock = Stock(companyName: companyName, stockTicker: stockTicker.uppercased(), notificationType: .above, notificationPrice: 0, newsSource: .Twitter)
             if notificationTypeSegmentControl.selectedSegmentIndex == 0 {
                 stock.notificationType = .above
             } else {

@@ -9,42 +9,56 @@
 import UIKit
 
 class StocksTableViewCell: UITableViewCell {
-    
     var companyNameLabel: UILabel!
     var stockTickerLabel: UILabel!
     var notificationTypeLabel: UILabel!
     var notificationPriceLabel: UILabel!
     var newsSourceLabel: UILabel!
+    let baseCellColor = UIColor(red: 83/255.0, green: 28/255.0, blue: 221/255.0, alpha: 1.0)
     
-    let padding: CGFloat = 10
+    let padding: CGFloat = 15
     let labelHeight: CGFloat = 20
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.layoutMargins = UIEdgeInsets.zero
+        self.separatorInset = UIEdgeInsets.zero
+        self.layer.cornerRadius = 15
+        self.backgroundColor = baseCellColor
+        self.layer.borderWidth = CGFloat(padding/2.5)
+        self.layer.borderColor = UIColor.white.cgColor
+        self.selectionStyle = .none
         
         stockTickerLabel = UILabel()
         stockTickerLabel.translatesAutoresizingMaskIntoConstraints = false
-        stockTickerLabel.font = UIFont.systemFont(ofSize: 15)
+        stockTickerLabel.font = UIFont(name:"ArialMT", size: 18)
+        stockTickerLabel.textColor = UIColor.white
         contentView.addSubview(stockTickerLabel)
         
         companyNameLabel = UILabel()
         companyNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        companyNameLabel.font = UIFont.systemFont(ofSize: 12)
+        companyNameLabel.font = UIFont(name:"ArialMT", size: 10)
+        companyNameLabel.textColor = UIColor.white
+        companyNameLabel.alpha = 0.75
         contentView.addSubview(companyNameLabel)
         
-        notificationTypeLabel = UILabel()
-        notificationTypeLabel.translatesAutoresizingMaskIntoConstraints = false
-        notificationTypeLabel.font = UIFont.systemFont(ofSize: 12)
-        contentView.addSubview(notificationTypeLabel)
+//        notificationTypeLabel = UILabel()
+//        notificationTypeLabel.translatesAutoresizingMaskIntoConstraints = false
+//        notificationTypeLabel.font = UIFont(name:"ArialMT", size: 12)
+//        contentView.addSubview(notificationTypeLabel)
         
         notificationPriceLabel = UILabel()
         notificationPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        notificationPriceLabel.font = UIFont.systemFont(ofSize: 13)
+        notificationPriceLabel.font = UIFont(name:"ArialMT", size: 12)
+        notificationPriceLabel.textColor = UIColor.white
         contentView.addSubview(notificationPriceLabel)
         
         newsSourceLabel = UILabel()
         newsSourceLabel.translatesAutoresizingMaskIntoConstraints = false
-        newsSourceLabel.font = UIFont.systemFont(ofSize: 12)
+        newsSourceLabel.font = UIFont(name:"ArialMT", size: 10)
+        newsSourceLabel.textColor = UIColor.white
+        newsSourceLabel.alpha = 0.75
         contentView.addSubview(newsSourceLabel)
         
         setupConstraints()
@@ -52,8 +66,8 @@ class StocksTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            stockTickerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            stockTickerLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
+            stockTickerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding + 5),
+            stockTickerLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding + 8),
             stockTickerLabel.heightAnchor.constraint(equalToConstant: labelHeight)
             ])
         
@@ -63,30 +77,30 @@ class StocksTableViewCell: UITableViewCell {
             companyNameLabel.heightAnchor.constraint(equalTo: stockTickerLabel.heightAnchor)
             ])
         
-        NSLayoutConstraint.activate([
-            notificationTypeLabel.leadingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: padding * -20),
-            notificationTypeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
-            notificationTypeLabel.heightAnchor.constraint(equalToConstant: labelHeight)
-            ])
+//        NSLayoutConstraint.activate([
+//            notificationTypeLabel.leadingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+//            notificationTypeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
+//            notificationTypeLabel.heightAnchor.constraint(equalToConstant: labelHeight)
+//            ])
         
         NSLayoutConstraint.activate([
-            notificationPriceLabel.leadingAnchor.constraint(equalTo: notificationTypeLabel.leadingAnchor),
-            notificationPriceLabel.topAnchor.constraint(equalTo: notificationTypeLabel.bottomAnchor),
-            notificationPriceLabel.heightAnchor.constraint(equalTo: notificationTypeLabel.heightAnchor)
+            notificationPriceLabel.topAnchor.constraint(equalTo: companyNameLabel.topAnchor),
+            notificationPriceLabel.heightAnchor.constraint(equalTo: stockTickerLabel.heightAnchor, constant: -3),
+            notificationPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
             ])
         
         NSLayoutConstraint.activate([
             newsSourceLabel.leadingAnchor.constraint(equalTo: companyNameLabel.leadingAnchor),
-            newsSourceLabel.topAnchor.constraint(equalTo: companyNameLabel.bottomAnchor),
+            newsSourceLabel.topAnchor.constraint(equalTo: companyNameLabel.bottomAnchor, constant: -3),
             newsSourceLabel.heightAnchor.constraint(equalTo: companyNameLabel.heightAnchor)
             ])
     }
     
     func configure(for stock: Stock) {
-        stockTickerLabel.text = "Stock Ticker: " + stock.stockTicker
-        companyNameLabel.text = "Company: " + stock.companyName
+        stockTickerLabel.text = stock.stockTicker
+        companyNameLabel.text = stock.companyName
         //notificationTypeLabel.text = stock.notificationType.rawValue
-        notificationPriceLabel.text = "Alert Triggered " + stock.notificationType.rawValue + " "  + String(stock.notificationPrice) + " USD"
+        notificationPriceLabel.text = "WATCHING: "  + String(stock.notificationPrice) + " USD"
         newsSourceLabel.text = "News Source: " + stock.newsSource.rawValue
     }
     
@@ -100,9 +114,12 @@ class StocksTableViewCell: UITableViewCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+        super.setSelected(selected, animated: true)
 
         // Configure the view for the selected state
+    }
+    override func setHighlighted(_ highlighted:Bool, animated:Bool){
+        super.setHighlighted(false, animated: true)
     }
 
 }

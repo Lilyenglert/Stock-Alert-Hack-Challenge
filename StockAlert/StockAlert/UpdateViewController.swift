@@ -46,6 +46,7 @@ class UpdateViewController: UIViewController  {
         // Do any additional setup after loading the view.
         
         view.backgroundColor = .white
+
         
         companyNameTextView = UITextView()
         companyNameTextView.translatesAutoresizingMaskIntoConstraints = false
