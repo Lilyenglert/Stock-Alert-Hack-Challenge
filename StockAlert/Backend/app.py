@@ -6,8 +6,8 @@ import re
 from twython import Twython
 
 
-withConsumerKey = "XYJ4UqLotjyHrrh6JPkDvWDEW"
-consumerSecret = "Mo0VvdvbAyRcYundawiFqylBZHExF2tOEDWThEHsxab7TIdcQE"
+withConsumerKey = #REMOVED API KEY
+consumerSecret = #REMOVED API KEY
 
 
 #import environment variables from the host OS
@@ -273,7 +273,7 @@ def add_stock_to_user(user_id):
         return json.dumps({'success': False, 'error': 'User not found'}), 404
 
     if stock is None:
-        apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + ticker + "&apikey=17R294ZH2B8H0OUU"
+        apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + ticker + "&apikey=#REMOVED API KEY"
         r = requests.get(apilink)
         content = r.json()
         company = content["bestMatches"][0]
@@ -310,7 +310,7 @@ def updatestock(ticker):
 #Search bar
 @app.route('/search/<string:search_str>/')
 def searching_stocks(search_str):
-    apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + search_str + "&apikey=17R294ZH2B8H0OUU"
+    apilink = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + search_str + "&apikey=#REMOVED API KEY"
     r = requests.get(apilink)
     content = r.json()
 
