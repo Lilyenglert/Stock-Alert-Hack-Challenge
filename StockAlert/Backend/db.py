@@ -9,8 +9,8 @@ from operator import itemgetter
 
 
 db = SQLAlchemy()
-apikey1 = "&apikey=17R294ZH2B8H0OUU"
-apikey2 = "&apikey=SV2GTG9PQ058TZ6C"
+apikey1 = #REMOVED API KEY
+apikey2 = #REMOVED API KEY
 
 user_stocks_association_table = db.Table(
     "user's stocks", db.Model.metadata,
