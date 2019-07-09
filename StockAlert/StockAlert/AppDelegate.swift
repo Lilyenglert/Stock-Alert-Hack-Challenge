@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        TWTRTwitter.sharedInstance().start(withConsumerKey:"XYJ4UqLotjyHrrh6JPkDvWDEW", consumerSecret:"Mo0VvdvbAyRcYundawiFqylBZHExF2tOEDWThEHsxab7TIdcQE")
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
         window?.makeKeyAndVisible()
